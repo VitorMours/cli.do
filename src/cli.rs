@@ -1,22 +1,23 @@
-use std::fs;
-use std::io; 
-use std::env;
-use crossterm::{cursor, terminal, terminal::WindowSize}
+use crossterm::{execute, terminal, terminal::ClearType, cursor::{MoveTo}};
+use std::io;
 
 
 pub fn clean_terminal() {
-    terminal::Clear();    
+
+    // Precisa limpar la de cima
+    execute!(io::stdout(), MoveTo(0, 0));
+    execute!(io::stdout(), terminal::Clear(ClearType::All));    
 }
 
 pub fn create_terminal_layout(){
 
-    let mut [rows, columns, width, height] = WindowSize();
-
+    let ws = terminal::window_size();
+    let columns = ws.unwrap().columns; 
     let mut column_idx = 0;
 
-
     loop {
-        println!("=");
-        column_idx++;
+        print!("=");
+        column_idx += 1;
+        if column_idx == columns { break;}
     }
 }
